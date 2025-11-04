@@ -1,33 +1,28 @@
-name: Python Tests  # tiger section 
-on: 
-    push:
-        branches:
-        - main,develop
-    pull_request:
-        branches:
-        - main
+name: Python Tests
 
-jobs:    #  job definition
-  test:   # job name 
-    runs-on: ubuntu-latest # os to run on 
+on: [push, pull_request]
 
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
     steps:
-    - name: Checkout code   # get your code
-      uses: actions/checkout@v4  # uses a prebuilt action
-
-    - name: Set up Python   # install python 
-      uses: actions/setup-python@v4 
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-    
-    - name: Install dependencies # install dependencies
+        
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-    - name: Run tests with pytest # run tests
+        
+    - name: Run tests
       run: |
         python -m pytest tests/ -v
-        continue-on-error: false
-          
+        
+    - name: Success message
+      run: echo "🎉 All tests passed!"
